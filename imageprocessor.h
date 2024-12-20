@@ -3,34 +3,42 @@
 
 #include <QMainWindow>
 #include <QMenu>
-#include <QToolBar>
 #include <QAction>
 #include <QLabel>
 #include <QImage>
+#include <QWidget>
 
 class ImageProcessor : public QMainWindow {
     Q_OBJECT
 
 public:
-    ImageProcessor(QWidget *parent = nullptr);
-    void createActions();
-    void createMenus();
-    void createToolBars();
-    void loadFile(QString filename);
+    explicit ImageProcessor(QWidget *parent = nullptr);
+    ~ImageProcessor();
+
 private slots:
-    void showOpenFile();
+    void showOpenFile(); // 開啟影像檔案
+    void zoomIn();       // 放大
+    void zoomOut();      // 縮小
 
 private:
-    QWidget *central;
+    void createActions();   // 建立動作
+    void createMenus();     // 建立選單
+    void createToolBar();   // 建立工具列
+    void loadFile(QString); // 載入檔案
+    void createZoomWindow(double factor); // 建立縮放視窗
+
+    QLabel *imgWin;         // 圖片顯示視窗
+    QImage img;             // 當前影像
+    QString filename;       // 影像檔案名
+    QWidget *central;       // 中央視窗
+
+    // 選單和工具列動作
     QMenu *fileMenu;
-    QToolBar *fileTool;
-    QImage img;
-    QString filename;
-    QLabel *imgWin;
+    QMenu *toolMenu;
     QAction *openFileAction;
     QAction *exitAction;
-    QAction *zoomInAction;    // 放大功能
-    QAction *zoomOutAction;   // 縮小功能
-    qreal currentScale = 1.0; // 當前縮放比例
+    QAction *zoomInAction;
+    QAction *zoomOutAction;
 };
+
 #endif // IMAGEPROCESSOR_H
